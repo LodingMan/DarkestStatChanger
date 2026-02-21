@@ -61,6 +61,8 @@ Click any skill row to see the effects that skill uses at the currently displaye
 
 > The effects panel reads all parameters dynamically, so it works with any mod regardless of what custom parameters it uses.
 
+![Skills Tab](docs/screenshot_skills.png)
+
 ---
 
 ### Camping Skills Tab
@@ -93,6 +95,8 @@ Note that this simulator does not perfectly replicate Darkest Dungeon's damage f
 - Click **Reset** to start over with a fresh monster.
 
 > ATK, DMG, and Crit values come from the hero file. Resistance checks (Stun resist, Debuff resist, etc.) use the monster data bundled with the app.
+
+![Simulator Tab](docs/screenshot_simulator.png)
 
 ---
 
@@ -176,6 +180,8 @@ Note that this simulator does not perfectly replicate Darkest Dungeon's damage f
 
 > 이펙트 패널은 모든 파라미터를 동적으로 읽기 때문에, 어떤 모드의 커스텀 이펙트 파일도 별도 수정 없이 지원됩니다.
 
+![Skills 탭](docs/screenshot_skills.png)
+
 ---
 
 ### Camping Skills 탭
@@ -209,6 +215,8 @@ Note that this simulator does not perfectly replicate Darkest Dungeon's damage f
 - **Reset**을 클릭하면 몬스터가 초기 상태로 돌아갑니다.
 
 > 공격%, 피해량, 치명타%는 영웅 파일에서 읽어오며, 저항 판정(기절 저항, 디버프 저항 등)은 앱에 내장된 몬스터 데이터를 사용합니다.
+
+![Simulator 탭](docs/screenshot_simulator.png)
 
 ---
 
