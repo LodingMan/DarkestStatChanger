@@ -1,5 +1,7 @@
 # DarkestStatChanger
 
+[Download](https://github.com/LodingMan/DarkestStatChanger/releases/tag/publish)
+
 A stat editor and combat simulator for Darkest Dungeon heroes and mods.
 Load any hero's `.info.darkest` file to view and edit stats, skills, and effects — then test the results in the built-in simulator.
 
