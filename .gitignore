@@ -1,0 +1,26 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docview
+
+# NuGet
+packages/
+*.nupkg
+project.lock.json
+
+# Rider / JetBrains
+.idea/
+
+# Claude Code
+.claude/
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
