@@ -12,7 +12,15 @@ namespace DarkestStatChanger.Services
         public static HeroInfo Parse(string filePath)
         {
             var heroInfo = new HeroInfo();
-            var lines = File.ReadAllLines(filePath);
+            string[] lines;
+            try
+            {
+                lines = File.ReadAllLines(filePath);
+            }
+            catch (Exception ex)
+            {
+                throw new DscException("E101", $"Hero file could not be read: {filePath}", ex);
+            }
 
             int weaponIdx = 0, armourIdx = 0, skillIdx = 0;
 
@@ -161,7 +169,10 @@ namespace DarkestStatChanger.Services
 
         private static CombatSkill ParseCombatSkill(string line)
         {
-            string skillType = line.Substring(0, line.IndexOf(':')).Trim();
+            int colonIdx = line.IndexOf(':');
+            if (colonIdx < 0)
+                throw new DscException("E201", $"Combat skill line is missing ':' separator. Line content: \"{line}\"");
+            string skillType = line.Substring(0, colonIdx).Trim();
             var allProps = ExtractProperties(line);
             var dict = PropsToDict(allProps);
 

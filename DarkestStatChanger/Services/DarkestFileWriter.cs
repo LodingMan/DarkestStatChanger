@@ -21,7 +21,14 @@ namespace DarkestStatChanger.Services
             if (File.Exists(filePath))
             {
                 string bakPath = filePath + ".bak";
-                File.Copy(filePath, bakPath, true);
+                try
+                {
+                    File.Copy(filePath, bakPath, true);
+                }
+                catch (Exception ex)
+                {
+                    throw new DscException("E102", $"Failed to create backup before saving: {bakPath}", ex);
+                }
             }
 
             // Detect original BOM to preserve encoding exactly
@@ -75,7 +82,14 @@ namespace DarkestStatChanger.Services
 
             // Write with same encoding as original (with or without BOM)
             var encoding = new UTF8Encoding(hasBom);
-            File.WriteAllText(filePath, content, encoding);
+            try
+            {
+                File.WriteAllText(filePath, content, encoding);
+            }
+            catch (Exception ex)
+            {
+                throw new DscException("E103", $"Failed to write hero file: {filePath}", ex);
+            }
         }
 
         // Replace .key VALUE in-place, preserving surrounding whitespace

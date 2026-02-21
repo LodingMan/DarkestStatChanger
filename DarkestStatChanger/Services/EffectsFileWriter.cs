@@ -27,7 +27,15 @@ namespace DarkestStatChanger.Services
                 var effectMap = group.ToDictionary(e => e.Name, StringComparer.OrdinalIgnoreCase);
 
                 var encoding = DetectEncoding(filePath);
-                string[] lines = File.ReadAllLines(filePath, encoding);
+                string[] lines;
+                try
+                {
+                    lines = File.ReadAllLines(filePath, encoding);
+                }
+                catch (Exception ex)
+                {
+                    throw new DscException("E301", $"Effects file could not be read: {filePath}", ex);
+                }
                 bool changed = false;
 
                 for (int i = 0; i < lines.Length; i++)
@@ -75,8 +83,22 @@ namespace DarkestStatChanger.Services
 
                 if (changed)
                 {
-                    File.Copy(filePath, filePath + ".bak", overwrite: true);
-                    File.WriteAllLines(filePath, lines, encoding);
+                    try
+                    {
+                        File.Copy(filePath, filePath + ".bak", overwrite: true);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new DscException("E302", $"Failed to create backup before saving effects file: {filePath}.bak", ex);
+                    }
+                    try
+                    {
+                        File.WriteAllLines(filePath, lines, encoding);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new DscException("E303", $"Failed to write effects file: {filePath}", ex);
+                    }
                     filesSaved++;
                 }
             }

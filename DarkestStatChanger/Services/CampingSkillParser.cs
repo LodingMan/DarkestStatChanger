@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -59,8 +60,17 @@ namespace DarkestStatChanger.Services
         private static List<CampingSkill> ParseJson(string jsonPath)
         {
             var skills = new List<CampingSkill>();
-            var json = File.ReadAllText(jsonPath);
-            var root = JObject.Parse(json);
+            string json;
+            JObject root;
+            try
+            {
+                json = File.ReadAllText(jsonPath);
+                root = JObject.Parse(json);
+            }
+            catch (Exception ex)
+            {
+                throw new DscException("E401", $"Camping skills JSON could not be read or parsed: {jsonPath}", ex);
+            }
             var skillsArray = root["skills"] as JArray;
             if (skillsArray == null) return skills;
 
@@ -110,10 +120,26 @@ namespace DarkestStatChanger.Services
 
             // Backup
             var bakPath = data.JsonFilePath + ".bak";
-            File.Copy(data.JsonFilePath, bakPath, true);
+            try
+            {
+                File.Copy(data.JsonFilePath, bakPath, true);
+            }
+            catch (Exception ex)
+            {
+                throw new DscException("E402", $"Failed to create backup before saving camping JSON: {bakPath}", ex);
+            }
 
-            var json = File.ReadAllText(data.JsonFilePath);
-            var root = JObject.Parse(json);
+            string json;
+            JObject root;
+            try
+            {
+                json = File.ReadAllText(data.JsonFilePath);
+                root = JObject.Parse(json);
+            }
+            catch (Exception ex)
+            {
+                throw new DscException("E401", $"Camping skills JSON could not be read or parsed: {data.JsonFilePath}", ex);
+            }
             var skillsArray = root["skills"] as JArray;
             if (skillsArray == null) return;
 
@@ -140,7 +166,14 @@ namespace DarkestStatChanger.Services
                 idx++;
             }
 
-            File.WriteAllText(data.JsonFilePath, root.ToString(Newtonsoft.Json.Formatting.Indented));
+            try
+            {
+                File.WriteAllText(data.JsonFilePath, root.ToString(Newtonsoft.Json.Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                throw new DscException("E403", $"Failed to write camping skills JSON: {data.JsonFilePath}", ex);
+            }
         }
     }
 

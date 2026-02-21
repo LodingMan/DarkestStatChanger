@@ -489,7 +489,8 @@ namespace DarkestStatChanger
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to parse file:\n{ex.Message}", "Error",
+                var code = (ex is DscException dsc) ? dsc.Code : "E900";
+                MessageBox.Show($"[{code}] Failed to parse file:\n\n{ex.Message}", $"Error ({code})",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -827,7 +828,18 @@ namespace DarkestStatChanger
             }
 
             var toSave = _effects.Values.Where(ef => !string.IsNullOrEmpty(ef.SourceFile));
-            int saved = EffectsFileWriter.Save(toSave);
+            int saved;
+            try
+            {
+                saved = EffectsFileWriter.Save(toSave);
+            }
+            catch (Exception ex)
+            {
+                var code = (ex is DscException dsc) ? dsc.Code : "E900";
+                MessageBox.Show($"[{code}] Failed to save effects:\n\n{ex.Message}", $"Error ({code})",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (saved == 0)
             {
@@ -870,7 +882,8 @@ namespace DarkestStatChanger
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to save:\n{ex.Message}", "Error",
+                var code = (ex is DscException dsc) ? dsc.Code : "E900";
+                MessageBox.Show($"[{code}] Failed to save:\n\n{ex.Message}", $"Error ({code})",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
